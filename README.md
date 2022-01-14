@@ -1,6 +1,8 @@
 # app_english_card
 
-A new Flutter project.
+
+Project flutter_App English Card . A Project is learned from 200lab.
+
 
 ## Getting Started
 
