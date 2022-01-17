@@ -6,6 +6,7 @@ import 'package:app_english_card/packages/quote/quote.dart';
 import 'package:app_english_card/values/app_assets.dart';
 import 'package:app_english_card/values/app_colors.dart';
 import 'package:app_english_card/values/app_styles.dart';
+import 'package:app_english_card/widgets/app_button.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -75,6 +77,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.secondColor,
       appBar: AppBar(
         backgroundColor: AppColors.secondColor,
@@ -85,7 +88,9 @@ class _HomePageState extends State<HomePage> {
               AppStyles.h3.copyWith(color: AppColors.textColor, fontSize: 36),
         ),
         leading: InkWell(
-          onTap: () {},
+          onTap: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
           child: Image.asset(AppAssets.menu),
         ),
       ),
@@ -232,6 +237,31 @@ class _HomePageState extends State<HomePage> {
           });
         },
         child: Image.asset(AppAssets.exchange),
+      ),
+      drawer: Drawer(
+        child: Container(
+          color: AppColors.lighBlue,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 24, left: 16),
+                child: Text(
+                  "Your mind",
+                  style: AppStyles.h3.copyWith(color: AppColors.textColor),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: AppButton(label: 'Favourites', onTap: () {}),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: AppButton(label: 'Your control', onTap: () {}),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
