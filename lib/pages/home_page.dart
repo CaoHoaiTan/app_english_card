@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app_english_card/models/english_today.dart';
 import 'package:app_english_card/packages/quote/qoute_model.dart';
 import 'package:app_english_card/packages/quote/quote.dart';
+import 'package:app_english_card/pages/control_page.dart';
 import 'package:app_english_card/values/app_assets.dart';
 import 'package:app_english_card/values/app_colors.dart';
 import 'package:app_english_card/values/app_styles.dart';
@@ -257,7 +258,12 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
-                child: AppButton(label: 'Your control', onTap: () {}),
+                child: AppButton(
+                    label: 'Your control',
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ControlPage()));
+                    }),
               ),
             ],
           ),
