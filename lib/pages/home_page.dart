@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                       _currentIndex = index;
                     });
                   },
-                  itemCount: words.length,
+                  itemCount: words.length > 5 ? 6 : words.length,
                   itemBuilder: (context, index) {
                     String first_Leter =
                         words[index].noun != null ? words[index].noun! : "";
@@ -160,92 +160,122 @@ class _HomePageState extends State<HomePage> {
                           },
                           splashColor: Colors.black26,
                           borderRadius: BorderRadius.all(Radius.circular(24)),
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            // margin: const EdgeInsets.symmetric(vertical: 16),
-
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 16, right: 16),
-                                      alignment: Alignment.centerRight,
-                                      child: Image.asset(
-                                        AppAssets.heart,
-                                        color: words[index].isFavorite
-                                            ? Colors.red
-                                            : Colors.white,
-                                      )),
-                                  RichText(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.start,
-                                      text: TextSpan(
-                                          text: first_Leter,
-                                          style: TextStyle(
-                                              fontFamily: FontFamily.sen,
-                                              fontSize: 89,
-                                              fontWeight: FontWeight.bold,
-                                              shadows: [
-                                                BoxShadow(
-                                                    color: Colors.black38,
-                                                    offset: Offset(3, 6),
-                                                    blurRadius: 6)
-                                              ]),
-                                          children: [
-                                            TextSpan(
-                                              text: leftLetter,
-                                              style: TextStyle(
-                                                  fontFamily: FontFamily.sen,
-                                                  fontSize: 56,
-                                                  fontWeight: FontWeight.bold,
-                                                  shadows: [
-                                                    BoxShadow(
-                                                        color: Colors.black38,
-                                                        offset: Offset(3, 6),
-                                                        blurRadius: 6)
-                                                  ]),
-                                            )
-                                          ])),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 24),
-                                    child: AutoSizeText(
-                                      '"$quote"',
-                                      maxFontSize: 26,
-                                      style: AppStyles.h4.copyWith(
-                                          letterSpacing: 3,
-                                          color: AppColors.textColor),
+                          // Xử lý show  more
+                          child: index >= 5
+                              ? InkWell(
+                                  onTap: () {
+                                    print("Show more");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) => AllWordsPage(
+                                                words: this.words)));
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      "Show more...",
+                                      style: AppStyles.h3.copyWith(shadows: [
+                                        BoxShadow(
+                                            color: Colors.black38,
+                                            offset: Offset(3, 6),
+                                            blurRadius: 6)
+                                      ]),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                                  ),
+                                )
+                              : Container(
+                                  padding: const EdgeInsets.all(16),
+                                  // margin: const EdgeInsets.symmetric(vertical: 16),
+
+                                  child: Container(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            padding: const EdgeInsets.only(
+                                                top: 16, right: 16),
+                                            alignment: Alignment.centerRight,
+                                            child: Image.asset(
+                                              AppAssets.heart,
+                                              color: words[index].isFavorite
+                                                  ? Colors.red
+                                                  : Colors.white,
+                                            )),
+                                        RichText(
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.start,
+                                            text: TextSpan(
+                                                text: first_Leter,
+                                                style: TextStyle(
+                                                    fontFamily: FontFamily.sen,
+                                                    fontSize: 89,
+                                                    fontWeight: FontWeight.bold,
+                                                    shadows: [
+                                                      BoxShadow(
+                                                          color: Colors.black38,
+                                                          offset: Offset(3, 6),
+                                                          blurRadius: 6)
+                                                    ]),
+                                                children: [
+                                                  TextSpan(
+                                                    text: leftLetter,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            FontFamily.sen,
+                                                        fontSize: 56,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        shadows: [
+                                                          BoxShadow(
+                                                              color: Colors
+                                                                  .black38,
+                                                              offset:
+                                                                  Offset(3, 6),
+                                                              blurRadius: 6)
+                                                        ]),
+                                                  )
+                                                ])),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 24),
+                                          child: AutoSizeText(
+                                            '"$quote"',
+                                            maxFontSize: 26,
+                                            style: AppStyles.h4.copyWith(
+                                                letterSpacing: 3,
+                                                color: AppColors.textColor),
+                                            maxLines: 9,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
                     );
                   }),
             ),
             // Indicator
-            _currentIndex >= 5
-                ? buildShowMore()
-                : Container(
-                    height: 12,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.only(right: 24, left: 24),
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        // Cuộn theo chiều ngang
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return buildIndicator(index == _currentIndex, size);
-                        }),
-                  )
+            // _currentIndex >= 5
+            //     ? buildShowMore():
+            Container(
+              height: 12,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(right: 24, left: 24),
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  // Cuộn theo chiều ngang
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return buildIndicator(index == _currentIndex, size);
+                  }),
+            )
           ],
         ),
       ),
